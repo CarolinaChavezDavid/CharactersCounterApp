@@ -1,7 +1,9 @@
 package com.carolina.characterscounterapp.data.repository
 
+import retrofit2.Response
+
 interface CharactersRepository {
-    suspend fun fetchEvery10thCharacterRequest(): Result<String>
+    suspend fun fetchEvery10thCharacterRequest(): Response<String>
 
     suspend fun get10thCharactersTextFromDatabase(): String
 
@@ -9,7 +11,7 @@ interface CharactersRepository {
 
     suspend fun clear10thCharactersText()
 
-    suspend fun fetchWordCounterRequest(): Result<String>
+    suspend fun fetchWordCounterRequest(): Response<String>
 
     suspend fun getWordCounterTextFromDatabase(): String
 

@@ -15,17 +15,18 @@ class GetEvery10thCharacterUseCase
 
             try {
                 val rawText = repository.fetchEvery10thCharacterRequest()
-                if (rawText.isSuccess)
-                    {
-                        repository.clear10thCharactersText()
-                        rawText.getOrNull()?.let {
-                            repository.insert10thCharactersText(it)
-                            result = getEvery10thCharacter(it).map { char -> char.toString() }
-                        }
-                    } else {
+                if (rawText.isSuccessful)
+                {
+                    repository.clear10thCharactersText()
+                    rawText.body()?.let {
+                        repository.insert10thCharactersText(it)
+                        result = getEvery10thCharacter(it).map { char -> char.toString() }
+                    }
+                } else {
                     result = getEvery10thCharacter(repository.get10thCharactersTextFromDatabase()).map { it.toString() }
                 }
             } catch (e: RuntimeException) {
+                Log.i("NetworkError", e.message.toString())
                 result = getEvery10thCharacter(repository.get10thCharactersTextFromDatabase()).map { it.toString() }
             }
 

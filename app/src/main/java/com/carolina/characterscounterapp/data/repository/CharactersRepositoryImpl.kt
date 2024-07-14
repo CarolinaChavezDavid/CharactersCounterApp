@@ -1,11 +1,11 @@
 package com.carolina.characterscounterapp.data.repository
 
-import android.util.Log
-import com.carolina.characterscounterapp.data.database.AppDatabase
+
 import com.carolina.characterscounterapp.data.database.dao.CharactersDao
 import com.carolina.characterscounterapp.data.database.entity.CharactersEntity
 import com.carolina.characterscounterapp.data.service.CharactersServices
-import org.jsoup.Jsoup
+import retrofit2.Call
+import retrofit2.Response
 import javax.inject.Inject
 
 class CharactersRepositoryImpl
@@ -14,7 +14,7 @@ class CharactersRepositoryImpl
         private val services: CharactersServices,
         private val charactersDao: CharactersDao,
     ) : CharactersRepository {
-        override suspend fun fetchEvery10thCharacterRequest(): Result<String> {
+        override suspend fun fetchEvery10thCharacterRequest(): Response<String> {
             return services.every10thCharacterRequest()
         }
 
@@ -30,7 +30,7 @@ class CharactersRepositoryImpl
             charactersDao.deleteAll()
         }
 
-        override suspend fun fetchWordCounterRequest(): Result<String> {
+        override suspend fun fetchWordCounterRequest(): Response<String> {
             return services.wordCounterRequest()
         }
 

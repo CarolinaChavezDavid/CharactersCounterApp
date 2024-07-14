@@ -1,6 +1,8 @@
 package com.carolina.characterscounterapp.data.di
 
+import com.carolina.characterscounterapp.data.di.ServiceModule.client
 import com.carolina.characterscounterapp.data.service.CharactersServices
+import com.carolina.characterscounterapp.data.service.HtmlConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

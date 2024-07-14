@@ -26,7 +26,6 @@ class GetEvery10thCharacterUseCase
                     result = getEvery10thCharacter(repository.get10thCharactersTextFromDatabase()).map { it.toString() }
                 }
             } catch (e: RuntimeException) {
-                Log.i("NetworkError", e.message.toString())
                 result = getEvery10thCharacter(repository.get10thCharactersTextFromDatabase()).map { it.toString() }
             }
 

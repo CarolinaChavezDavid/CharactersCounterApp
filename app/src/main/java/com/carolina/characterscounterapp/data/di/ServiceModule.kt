@@ -8,6 +8,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -17,6 +18,7 @@ object ServiceModule {
     private val client = OkHttpClient.Builder().addInterceptor(logging).build()
     private val retrofitService: Retrofit by lazy {
         Retrofit.Builder().baseUrl(BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .client(client)
             .build()
     }

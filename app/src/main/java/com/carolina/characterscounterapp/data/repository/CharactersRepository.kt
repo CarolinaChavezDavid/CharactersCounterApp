@@ -1,7 +1,7 @@
 package com.carolina.characterscounterapp.data.repository
 
 interface CharactersRepository {
-    suspend fun fetchEvery10thCharacterRequest(): String
+    suspend fun fetchEvery10thCharacterRequest(): Result<String>
 
     suspend fun get10thCharactersTextFromDatabase(): String
 
@@ -9,7 +9,7 @@ interface CharactersRepository {
 
     suspend fun clear10thCharactersText()
 
-    suspend fun fetchWordCounterRequest(): String
+    suspend fun fetchWordCounterRequest(): Result<String>
 
     suspend fun getWordCounterTextFromDatabase(): String
 

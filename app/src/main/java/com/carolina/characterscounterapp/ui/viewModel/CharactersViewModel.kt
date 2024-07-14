@@ -1,9 +1,10 @@
-package com.carolina.characterscounterapp.ui
+package com.carolina.characterscounterapp.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.carolina.characterscounterapp.domain.useCase.GetEvery10thCharacterUseCase
 import com.carolina.characterscounterapp.domain.useCase.GetWordCounterUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CharactersViewModel
     @Inject
     constructor(
@@ -23,11 +25,12 @@ class CharactersViewModel
         private var _wordCounter = MutableStateFlow(emptyMap<String, Int>())
         val wordCounter: StateFlow<Map<String, Int>> = _wordCounter
 
-        private var _uiState = MutableStateFlow<UiState>(UiState.Loading)
+        private var _uiState = MutableStateFlow<UiState>(UiState.Success)
         val uiState: StateFlow<UiState> = _uiState
 
         fun getData() {
             viewModelScope.launch {
+                _uiState.value = UiState.Loading
                 val wordCounterDeferred =
                     async {
                         getWordCounterUseCase.execute()
@@ -40,8 +43,9 @@ class CharactersViewModel
                 _every10thCharacter.value = result[1] as List<String>
                 _wordCounter.value = result[0] as Map<String, Int>
 
-                _uiState.value = UiState.Success
             }
+            _uiState.value = UiState.Success
+
         }
     }
 

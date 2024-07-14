@@ -4,8 +4,8 @@ import retrofit2.http.GET
 
 interface CharactersServices {
     @GET("about/")
-    suspend fun every10thCharacterRequest(): String
+    suspend fun every10thCharacterRequest(): Result<String>
 
     @GET("about/")
-    suspend fun wordCounterRequest(): String
+    suspend fun wordCounterRequest(): Result<String>
 }

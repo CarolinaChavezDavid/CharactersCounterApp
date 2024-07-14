@@ -1,0 +1,4 @@
+package com.carolina.characterscounterapp.domain.useCase
+
+
+class GetWordCounterUseCaseTest

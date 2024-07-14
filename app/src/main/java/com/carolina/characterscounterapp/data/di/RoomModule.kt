@@ -23,5 +23,5 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun provideCharactersDao(database: AppDatabase) = database.getEvery10CharacterText()
+    fun provideCharactersDao(database: AppDatabase) = database.getCharacterText()
 }

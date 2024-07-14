@@ -3,8 +3,8 @@ package com.carolina.characterscounterapp.data.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.carolina.characterscounterapp.data.database.entity.CharactersEntity
-import retrofit2.http.Query
 
 @Dao
 interface CharactersDao {

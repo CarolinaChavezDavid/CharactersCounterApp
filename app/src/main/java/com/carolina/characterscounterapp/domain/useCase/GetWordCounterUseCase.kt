@@ -1,23 +1,36 @@
 package com.carolina.characterscounterapp.domain.useCase
 
+import android.util.Log
+import com.carolina.characterscounterapp.data.repository.CharactersRepository
 import com.carolina.characterscounterapp.data.repository.CharactersRepositoryImpl
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 class GetWordCounterUseCase
     @Inject
     constructor(
-        private val repository: CharactersRepositoryImpl,
+        private val repository: CharactersRepository,
     ) {
         suspend fun execute(): Map<String, Int> {
-            val rawText = repository.fetchEvery10thCharacterRequest().subSequence(0, 100)
+            var result = mapOf<String, Int>()
 
-            return if (!rawText.isNullOrEmpty()) {
-                repository.clear1WordCounterText()
-                repository.insert10thCharactersText(rawText.toString())
-                getWordCounter(rawText.toString())
-            } else {
-                getWordCounter(repository.getWordCounterTextFromDatabase())
+            try{
+                val rawText = repository.fetchWordCounterRequest()
+                if (rawText.isSuccess){
+                    rawText.getOrNull()?.let {
+                       result = getWordCounter(it)
+                    }
+                }else {
+                    result = getWordCounter(repository.getWordCounterTextFromDatabase())
+                }
+
+
+            } catch (e: RuntimeException) {
+                Log.i("NetworkErrorO", e.message.toString())
+                result = getWordCounter(repository.getWordCounterTextFromDatabase())
             }
+
+            return result
         }
 
         private fun getWordCounter(rawString: String): Map<String, Int> {

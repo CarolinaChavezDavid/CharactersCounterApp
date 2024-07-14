@@ -1,23 +1,36 @@
 package com.carolina.characterscounterapp.domain.useCase
 
-import com.carolina.characterscounterapp.data.repository.CharactersRepositoryImpl
+import android.util.Log
+import com.carolina.characterscounterapp.data.repository.CharactersRepository
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 class GetEvery10thCharacterUseCase
     @Inject
     constructor(
-        private val repository: CharactersRepositoryImpl,
+        private val repository: CharactersRepository,
     ) {
         suspend fun execute(): List<String> {
-            val rawText = repository.fetchEvery10thCharacterRequest().subSequence(0, 100)
+            var result = listOf<String>()
 
-            return if (!rawText.isNullOrEmpty()) {
-                repository.clear10thCharactersText()
-                repository.insert10thCharactersText(rawText.toString())
-                getEvery10thCharacter(rawText.toString()).map { it.toString() }
-            } else {
-                getEvery10thCharacter(repository.get10thCharactersTextFromDatabase()).map { it.toString() }
+            try {
+                val rawText = repository.fetchEvery10thCharacterRequest()
+                if (rawText.isSuccess)
+                    {
+                        repository.clear10thCharactersText()
+                        rawText.getOrNull()?.let {
+                            repository.insert10thCharactersText(it)
+                            result = getEvery10thCharacter(it).map { char -> char.toString() }
+                        }
+                    } else {
+                    result = getEvery10thCharacter(repository.get10thCharactersTextFromDatabase()).map { it.toString() }
+                }
+            } catch (e: RuntimeException) {
+                Log.i("NetworkError", e.message.toString())
+                result = getEvery10thCharacter(repository.get10thCharactersTextFromDatabase()).map { it.toString() }
             }
+
+            return result
         }
 
         private fun getEvery10thCharacter(rawString: String): List<Char> {

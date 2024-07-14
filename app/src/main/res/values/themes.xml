@@ -2,4 +2,9 @@
 <resources>
 
     <style name="Theme.CharactersCounterApp" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="SplashTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/eerie_black</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@color/eerie_black</item>
+    </style>
 </resources>
